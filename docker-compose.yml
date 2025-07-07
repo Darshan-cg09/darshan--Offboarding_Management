@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./FrontEnd
+    container_name: frontend-offboarding
+    ports:
+      - "7481:80"
+
+  hr:
+    build:
+      context: ./HR
+    container_name: hr-offboarding
+    ports:
+      - "7482:80"
+
+  backend:
+    build:
+      context: ./Backend
+    container_name: backend-offboarding
+    ports:
+      - "9085:9085"
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: offboarding_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Veera@0134
+
+  postgres:
+    image: postgres:13
+    container_name: postgres_offboarding
+    ports:
+      - "7555:5432"
+    environment:
+      POSTGRES_DB: offboarding_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Veera@0134
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+
